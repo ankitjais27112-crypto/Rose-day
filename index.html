@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Rose Day ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to bottom, #ff758c, #ff7eb3);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    transition: background 1s ease;
+}
+
+body.bright {
+    background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.18);
+    padding: 25px;
+    border-radius: 20px;
+    max-width: 90%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    backdrop-filter: blur(6px);
+    position: relative;
+    z-index: 2;
+}
+
+p {
+    font-size: 18px;
+    line-height: 1.4;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+button {
+    padding: 12px 22px;
+    font-size: 16px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.yes {
+    background: #ff2f68;
+    color: white;
+}
+
+.no {
+    background: white;
+    color: #ff2f68;
+    position: absolute;
+}
+
+/* 🌹 Roses */
+.rose {
+    position: fixed;
+    top: -60px;
+    width: 35px;
+    height: 35px;
+    background-image: url('https://i.imgur.com/1Q9Z1Zm.png');
+    background-size: cover;
+    animation: fall linear infinite;
+    z-index: 1;
+}
+
+/* ❤️ Hearts */
+.heart {
+    position: fixed;
+    top: -30px;
+    font-size: 22px;
+    animation: fall linear infinite;
+    z-index: 1;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+    }
+}
+
+/* ✨ Signature */
+.signature {
+    font-size: 28px;
+    margin-top: 15px;
+    color: #fff;
+    text-shadow: 0 0 10px #ffdee9, 0 0 20px #ff6f91;
+}
+
+/* 🤗 Cuddle animation */
+.cuddle {
+    font-size: 48px;
+    animation: pulse 1.5s infinite;
+    margin: 10px 0;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 Music -->
+<audio id="music" loop preload="auto">
+  <source src="https://cdn.pixabay.com/audio/2023/03/13/audio_62fd7c7a5f.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+    <p id="text">
+        My love ❤️<br>
+        Are you ready for a few sweet questions?(Not more sweeter than you 😁)<br><br>
+        <small></small>
+    </p>
+
+    <div class="buttons">
+        <button class="yes" onclick="next()">Yes 💕</button>
+        <button class="no" id="noBtn">No 😜</button>
+    </div>
+</div>
+
+<script>
+const messages = [
+    "Meriwaali is soooo sweet...Chalo ab kuch puche aapse?",
+    "Do you know how special you are to me? 🌹",
+    "Hmko v pta h ki tum special ho mere lye...bht jyada because you're my chhota baby 😘... Ho na mera chhota baby 😁?",
+    "Do you know you make my world more beautiful every day? ✨",
+"Do you know my favorite place ? 💖",
+    "You are my favourite place qki tum jaha mere saath hoti ho whi jagah favourite ho jaata h mera 😍...hai na aisa?",
+    "Just like this rose, my love for you is pure and forever 🌹",
+    `
+    "Happy Rose Day, my love, meriwaali, mera chhota baccha and everything ❤️🌹<br><br>You are my rose, today and always. I am really grateful to have you in my life 😊😘"
+    <div class="cuddle">👩‍❤️‍👨🤗</div>
+    <div class="cuddle">🌹❤️🌹</div>
+    <span class="signature">— With love, Ankit 💖</span>
+    `
+];
+
+let index = 0;
+let musicStarted = false;
+
+function next() {
+    // 🎵 Start music safely
+    if (!musicStarted) {
+        const music = document.getElementById("music");
+        music.muted = false;
+        music.play().catch(()=>{});
+        musicStarted = true;
+    }
+
+    if (index < messages.length) {
+        document.getElementById("text").innerHTML = messages[index];
+        index++;
+
+        // 🌸 Final celebration
+        if (index === messages.length) {
+            document.body.classList.add("bright");
+            roseShower();
+        }
+    }
+}
+
+// 😜 No button escape
+const noBtn = document.getElementById("noBtn");
+function moveNoButton() {
+    noBtn.style.transform =
+      `translate(${Math.random()*220-110}px, ${Math.random()*160-80}px)`;
+}
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
+
+// 🌹 Initial roses
+for (let i = 0; i < 15; i++) createRose(6,11);
+
+// ❤️ Initial hearts
+for (let i = 0; i < 20; i++) createHeart(4,8);
+
+// 🌹❤️ FINAL SHOWER
+function roseShower() {
+    for (let i = 0; i < 50; i++) {
+        createRose(2,4);
+        createHeart(2,4);
+    }
+}
+
+function createRose(min,max){
+    let r=document.createElement("div");
+    r.className="rose";
+    r.style.left=Math.random()*100+"vw";
+    r.style.animationDuration=(min+Math.random()*(max-min))+"s";
+    document.body.appendChild(r);
+}
+
+function createHeart(min,max){
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="💖";
+    h.style.left=Math.random()*100+"vw";
+    h.style.animationDuration=(min+Math.random()*(max-min))+"s";
+    document.body.appendChild(h);
+}
+</script>
+
+</body>
+</html>
